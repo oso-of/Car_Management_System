@@ -1,0 +1,72 @@
+
+Car Rental System Menu
+1. Rent a Car
+2. Return a Car
+3. Register a New Car
+4. Deregister a Car
+5. Sort Cars
+6. List Cars
+7. Quit
+Enter choice: 
+Current Car Inventory
+---------------------
+Name: Toyota Camry | Type: Sedan | Status: Available | Rent Start: N/A | Rent End: N/A
+Name: Honda CR-V | Type: SUV | Status: Available | Rent Start: N/A | Rent End: N/A
+Name: Ford F-150 | Type: Truck | Status: Available | Rent Start: N/A | Rent End: N/A
+
+Car Rental System Menu
+1. Rent a Car
+2. Return a Car
+3. Register a New Car
+4. Deregister a Car
+5. Sort Cars
+6. List Cars
+7. Quit
+Enter choice: Enter car name to rent: Enter rent start date (YYYY-MM-DD): Enter rent return date (YYYY-MM-DD): Car rented successfully.
+
+Car Rental System Menu
+1. Rent a Car
+2. Return a Car
+3. Register a New Car
+4. Deregister a Car
+5. Sort Cars
+6. List Cars
+7. Quit
+Enter choice: 
+Current Car Inventory
+---------------------
+Name: Toyota Camry | Type: Sedan | Status: Rented | Rent Start: 2026-05-10 | Rent End: 2026-05-15
+Name: Honda CR-V | Type: SUV | Status: Available | Rent Start: N/A | Rent End: N/A
+Name: Ford F-150 | Type: Truck | Status: Available | Rent Start: N/A | Rent End: N/A
+
+Car Rental System Menu
+1. Rent a Car
+2. Return a Car
+3. Register a New Car
+4. Deregister a Car
+5. Sort Cars
+6. List Cars
+7. Quit
+Enter choice: 
+Sort by:
+1. Name
+2. Type
+3. Rent Start Date
+4. Rent Return Date
+Enter sort choice: Cars sorted successfully.
+
+Current Car Inventory
+---------------------
+Name: Ford F-150 | Type: Truck | Status: Available | Rent Start: N/A | Rent End: N/A
+Name: Honda CR-V | Type: SUV | Status: Available | Rent Start: N/A | Rent End: N/A
+Name: Toyota Camry | Type: Sedan | Status: Rented | Rent Start: 2026-05-10 | Rent End: 2026-05-15
+
+Car Rental System Menu
+1. Rent a Car
+2. Return a Car
+3. Register a New Car
+4. Deregister a Car
+5. Sort Cars
+6. List Cars
+7. Quit
+Enter choice: Exiting program. Goodbye!
