@@ -1,0 +1,310 @@
+export default function CarRentalManagementSystem() {
+  const initialCars = [
+    {
+      id: 1,
+      name: "Toyota Camry",
+      type: "Sedan",
+      available: true,
+      rentStart: "N/A",
+      rentEnd: "N/A",
+    },
+    {
+      id: 2,
+      name: "Honda CR-V",
+      type: "SUV",
+      available: true,
+      rentStart: "N/A",
+      rentEnd: "N/A",
+    },
+    {
+      id: 3,
+      name: "Ford F-150",
+      type: "Truck",
+      available: true,
+      rentStart: "N/A",
+      rentEnd: "N/A",
+    },
+  ];
+
+  const [cars, setCars] = React.useState(initialCars);
+  const [carName, setCarName] = React.useState("");
+  const [carType, setCarType] = React.useState("Sedan");
+  const [rentStart, setRentStart] = React.useState("");
+  const [rentEnd, setRentEnd] = React.useState("");
+  const [selectedCar, setSelectedCar] = React.useState("");
+  const [sortOption, setSortOption] = React.useState("name");
+
+  function registerCar() {
+    if (!carName.trim()) {
+      alert("Please enter a car name.");
+      return;
+    }
+
+    const exists = cars.some(
+      (car) => car.name.toLowerCase() === carName.toLowerCase()
+    );
+
+    if (exists) {
+      alert("Car already exists.");
+      return;
+    }
+
+    const newCar = {
+      id: Date.now(),
+      name: carName,
+      type: carType,
+      available: true,
+      rentStart: "N/A",
+      rentEnd: "N/A",
+    };
+
+    setCars([...cars, newCar]);
+    setCarName("");
+  }
+
+  function rentCar() {
+    if (!selectedCar || !rentStart || !rentEnd) {
+      alert("Please complete all rental fields.");
+      return;
+    }
+
+    setCars(
+      cars.map((car) => {
+        if (car.id === Number(selectedCar)) {
+          if (!car.available) {
+            alert("Car is already rented.");
+            return car;
+          }
+
+          return {
+            ...car,
+            available: false,
+            rentStart,
+            rentEnd,
+          };
+        }
+
+        return car;
+      })
+    );
+
+    setRentStart("");
+    setRentEnd("");
+  }
+
+  function returnCar(id) {
+    setCars(
+      cars.map((car) => {
+        if (car.id === id) {
+          return {
+            ...car,
+            available: true,
+            rentStart: "N/A",
+            rentEnd: "N/A",
+          };
+        }
+
+        return car;
+      })
+    );
+  }
+
+  function deregisterCar(id) {
+    const targetCar = cars.find((car) => car.id === id);
+
+    if (!targetCar.available) {
+      alert("Cannot deregister a rented car.");
+      return;
+    }
+
+    setCars(cars.filter((car) => car.id !== id));
+  }
+
+  function sortCars(option) {
+    const sortedCars = [...cars];
+
+    if (option === "name") {
+      sortedCars.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    if (option === "type") {
+      sortedCars.sort((a, b) => a.type.localeCompare(b.type));
+    }
+
+    if (option === "start") {
+      sortedCars.sort((a, b) => a.rentStart.localeCompare(b.rentStart));
+    }
+
+    if (option === "end") {
+      sortedCars.sort((a, b) => a.rentEnd.localeCompare(b.rentEnd));
+    }
+
+    setCars(sortedCars);
+  }
+
+  React.useEffect(() => {
+    sortCars(sortOption);
+  }, [sortOption]);
+
+  return (
+    <div className="min-h-screen bg-gray-100 p-8">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-4xl font-bold mb-8 text-center">
+          Car Rental Management System
+        </h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="bg-white rounded-2xl shadow-lg p-6">
+            <h2 className="text-2xl font-semibold mb-4">Register New Car</h2>
+
+            <input
+              type="text"
+              placeholder="Car Name"
+              value={carName}
+              onChange={(e) => setCarName(e.target.value)}
+              className="w-full border p-3 rounded-xl mb-4"
+            />
+
+            <select
+              value={carType}
+              onChange={(e) => setCarType(e.target.value)}
+              className="w-full border p-3 rounded-xl mb-4"
+            >
+              <option>Sedan</option>
+              <option>SUV</option>
+              <option>Truck</option>
+              <option>Van</option>
+              <option>Motorcycle</option>
+            </select>
+
+            <button
+              onClick={registerCar}
+              className="w-full bg-black text-white p-3 rounded-xl hover:opacity-90"
+            >
+              Register Car
+            </button>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-lg p-6">
+            <h2 className="text-2xl font-semibold mb-4">Rent a Car</h2>
+
+            <select
+              value={selectedCar}
+              onChange={(e) => setSelectedCar(e.target.value)}
+              className="w-full border p-3 rounded-xl mb-4"
+            >
+              <option value="">Select Car</option>
+              {cars.map((car) => (
+                <option key={car.id} value={car.id}>
+                  {car.name} ({car.type})
+                </option>
+              ))}
+            </select>
+
+            <label className="block mb-2 font-medium">Rent Start Date</label>
+            <input
+              type="date"
+              value={rentStart}
+              onChange={(e) => setRentStart(e.target.value)}
+              className="w-full border p-3 rounded-xl mb-4"
+            />
+
+            <label className="block mb-2 font-medium">Return Date</label>
+            <input
+              type="date"
+              value={rentEnd}
+              onChange={(e) => setRentEnd(e.target.value)}
+              className="w-full border p-3 rounded-xl mb-4"
+            />
+
+            <button
+              onClick={rentCar}
+              className="w-full bg-blue-600 text-white p-3 rounded-xl hover:opacity-90"
+            >
+              Rent Car
+            </button>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+            <h2 className="text-2xl font-semibold">Car Inventory</h2>
+
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+              className="border p-3 rounded-xl"
+            >
+              <option value="name">Sort by Name</option>
+              <option value="type">Sort by Type</option>
+              <option value="start">Sort by Rent Start Date</option>
+              <option value="end">Sort by Rent End Date</option>
+            </select>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="p-3 text-left">Name</th>
+                  <th className="p-3 text-left">Type</th>
+                  <th className="p-3 text-left">Availability</th>
+                  <th className="p-3 text-left">Rent Start</th>
+                  <th className="p-3 text-left">Rent End</th>
+                  <th className="p-3 text-left">Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {cars.map((car) => (
+                  <tr key={car.id} className="border-b">
+                    <td className="p-3">{car.name}</td>
+                    <td className="p-3">{car.type}</td>
+                    <td className="p-3">
+                      {car.available ? "Available" : "Rented"}
+                    </td>
+                    <td className="p-3">{car.rentStart}</td>
+                    <td className="p-3">{car.rentEnd}</td>
+                    <td className="p-3 flex gap-2 flex-wrap">
+                      {!car.available && (
+                        <button
+                          onClick={() => returnCar(car.id)}
+                          className="bg-green-600 text-white px-4 py-2 rounded-xl"
+                        >
+                          Return
+                        </button>
+                      )}
+
+                      <button
+                        onClick={() => deregisterCar(car.id)}
+                        className="bg-red-600 text-white px-4 py-2 rounded-xl"
+                      >
+                        Deregister
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow-lg p-6">
+          <h2 className="text-2xl font-semibold mb-4">
+            Project Features Demonstrated
+          </h2>
+
+          <ul className="list-disc pl-6 space-y-2 text-lg">
+            <li>Inheritance through different vehicle types</li>
+            <li>Polymorphism using shared car management logic</li>
+            <li>Register and deregister vehicles</li>
+            <li>Rent and return functionality</li>
+            <li>Inventory management system</li>
+            <li>Sorting by name, type, and rental dates</li>
+            <li>Interactive web-based user interface</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
